@@ -5,8 +5,8 @@ After=network.target
 [Service]
 Type=simple
 User=root
-Group={{ prometheus_exporters_group }}
-ExecStart={{ prometheus_exporters_root_dir }}/node_exporter_current/node_exporter -collectors.enabled={{ prometheus_node_exporter_enabled_collectors | join(',') }} {% for flag, flag_value in prometheus_node_exporter_config_flags.iteritems() %}-{{ flag }}={{ flag_value }} {% endfor %}
+Group={{ prometheus_exporters_common_group }}
+ExecStart={{ prometheus_exporters_common_root_dir }}/node_exporter_current/node_exporter -collectors.enabled={{ prometheus_node_exporter_enabled_collectors | join(',') }} {% for flag, flag_value in prometheus_node_exporter_config_flags.iteritems() %}-{{ flag }}={{ flag_value }} {% endfor %}
 
 SyslogIdentifier=prometheus_node_exporter
 Restart=always

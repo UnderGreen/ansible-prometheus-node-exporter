@@ -3,14 +3,14 @@
 - name: download prometheus node exporter binary
   get_url:
     url: "https://github.com/prometheus/node_exporter/releases/download/{{ prometheus_node_exporter_version }}/{{ prometheus_node_exporter_release_name }}.tar.gz"
-    dest: "{{ prometheus_exporters_dist_dir }}"
+    dest: "{{ prometheus_exporters_common_dist_dir }}"
 
 - name: unarchive binary tarball
   unarchive:
     copy: no
-    src: "{{ prometheus_exporters_dist_dir }}/{{ prometheus_node_exporter_release_name }}.tar.gz"
-    dest: "{{ prometheus_exporters_dist_dir }}"
-    creates: "{{ prometheus_exporters_dist_dir }}/{{ prometheus_node_exporter_release_name }}/node_exporter"
+    src: "{{ prometheus_exporters_common_dist_dir }}/{{ prometheus_node_exporter_release_name }}.tar.gz"
+    dest: "{{ prometheus_exporters_common_dist_dir }}"
+    creates: "{{ prometheus_exporters_common_dist_dir }}/{{ prometheus_node_exporter_release_name }}/node_exporter"
   register: prometheus_node_exporter_updated
   notify:
     - restart node exporter
@@ -20,14 +20,14 @@
     path: "{{ prometheus_node_exporter_release_name }}"
     state: directory
     recurse: yes
-    owner: "{{ prometheus_exporters_user}}"
-    group: "{{ prometheus_exporters_group }}"
+    owner: "{{ prometheus_exporters_common_user}}"
+    group: "{{ prometheus_exporters_common_group }}"
   when: prometheus_node_exporter_updated | changed
 
 - name: create symlink to the current release
   file:
-    src: "{{ prometheus_exporters_dist_dir }}/{{ prometheus_node_exporter_release_name }}"
-    path: "{{ prometheus_exporters_root_dir }}/node_exporter_current"
+    src: "{{ prometheus_exporters_common_dist_dir }}/{{ prometheus_node_exporter_release_name }}"
+    path: "{{ prometheus_exporters_common_root_dir }}/node_exporter_current"
     state: link
 
 - name: create systemd service unit
