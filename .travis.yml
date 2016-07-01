@@ -18,6 +18,9 @@ install:
   # Check ansible version
   - ansible --version
 
+  # Install role dependencies
+  ansible-galaxy install -p ../ UnderGreen.prometheus-exporters-common
+
   # Create ansible.cfg with correct roles_path
   - printf '[defaults]\nroles_path=../' >ansible.cfg
 
