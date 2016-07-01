@@ -37,8 +37,20 @@
     owner: root
     group: root
     mode: 0644
+  when: ansible_service_mgr == 'systemd'
   notify:
     - service reenable
+    - restart node exporter
+
+- name: create init service unit
+  template:
+    src: etc/init/prometheus-node-exporter.conf.j2
+    dest: /etc/init/prometheus-node-exporter.conf
+    owner: root
+    group: root
+    mode: 0644
+  when: ansible_service_mgr == 'upstart'
+  notify:
     - restart node exporter
 
 - name: ensure prometheus node exporter service is enabled
