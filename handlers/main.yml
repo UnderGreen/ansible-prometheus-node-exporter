@@ -1,0 +1,9 @@
+---
+
+- name: service reenable
+  command: systemctl reenable prometheus-node-exporter.service
+
+- name: restart node exporter
+  service:
+    name: prometheus-node-exporter
+    state: restarted

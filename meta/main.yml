@@ -1,0 +1,20 @@
+---
+
+dependencies:
+  - UnderGreen.prometheus-exporters-common
+
+galaxy_info:
+  author: Sergei Antipov
+  company: 2GIS
+  description: Deploy Prometheus Node Exporter
+  license: GPLv2
+  min_ansible_version: 2.0
+  platforms:
+  - name: Debian
+    versions:
+    - jessie
+  - name: Ubuntu
+    versions:
+    - xenial
+  galaxy_tags:
+  - monitoring
