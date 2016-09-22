@@ -53,7 +53,8 @@
   notify:
     - restart node exporter
 
-- name: ensure prometheus node exporter service is enabled
+- name: ensure prometheus node exporter service is enabled and started
   service:
     name: prometheus-node-exporter
+    state: started
     enabled: yes

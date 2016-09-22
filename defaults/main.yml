@@ -6,7 +6,6 @@ prometheus_node_exporter_release_name: "node_exporter-{{ prometheus_node_exporte
 # https://github.com/prometheus/node_exporter#enabled-by-default
 prometheus_node_exporter_enabled_collectors:
   - conntrack
-  - cpu
   - diskstats
   - entropy
   - filefd
