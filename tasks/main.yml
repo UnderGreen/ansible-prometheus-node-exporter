@@ -51,6 +51,7 @@
     mode: 0644
   when: ansible_service_mgr == 'upstart'
   notify:
+    - reinit node exporter
     - restart node exporter
 
 - name: ensure prometheus node exporter service is enabled and started
