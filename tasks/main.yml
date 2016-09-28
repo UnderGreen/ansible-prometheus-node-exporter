@@ -54,7 +54,7 @@
     - reinit node exporter
     - restart node exporter
 
-- meta: flush handlers
+- meta: flush_handlers
 
 - name: ensure prometheus node exporter service is enabled and started
   service:
