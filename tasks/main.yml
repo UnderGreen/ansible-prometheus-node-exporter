@@ -2,7 +2,7 @@
 
 - name: download prometheus node exporter binary
   get_url:
-    url: "https://github.com/prometheus/node_exporter/releases/download/{{ prometheus_node_exporter_version }}/{{ prometheus_node_exporter_release_name }}.tar.gz"
+    url: "https://github.com/prometheus/node_exporter/releases/download/v{{ prometheus_node_exporter_version }}/{{ prometheus_node_exporter_release_name }}.tar.gz"
     dest: "{{ prometheus_exporters_common_dist_dir }}"
 
 - name: unarchive binary tarball
