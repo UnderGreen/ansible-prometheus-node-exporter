@@ -10,7 +10,7 @@ All needed packages will be installed with this role.
 
 Available variables are listed below, along with default values:
 ```yaml
-prometheus_node_exporter_version: 0.12.0
+prometheus_node_exporter_version: 0.13.0
 
 prometheus_node_exporter_enabled_collectors:
   - conntrack
