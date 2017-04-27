@@ -45,7 +45,7 @@
 - name: Looking which version of upstart is install
   command: initctl version
   when: ansible_service_mgr == 'upstart'
-  register: upstat_version
+  register: upstart_version
 
 - name: create init service unit
   template:

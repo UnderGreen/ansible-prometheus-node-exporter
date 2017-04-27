@@ -3,7 +3,7 @@ start on (local-filesystems and net-device-up IFACE!=lo)
 stop on runlevel [016]
 
 respawn
-{% if upstat_version.stdout | replace("init (upstart ", "") |replace(")","") | version_compare('1.4', '>=') %}
+{% if upstart_version.stdout | replace("init (upstart ", "") |replace(")","") | version_compare('1.4', '>=') %}
 setuid root
 setgid {{ prometheus_exporters_common_group }}
 {% endif %}
