@@ -42,6 +42,11 @@
     - service reenable
     - restart node exporter
 
+- name: Looking which version of upstart is install
+  command: initctl version
+  when: ansible_service_mgr == 'upstart'
+  register: upstat_version
+
 - name: create init service unit
   template:
     src: etc/init/prometheus-node-exporter.conf.j2
