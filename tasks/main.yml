@@ -54,6 +54,17 @@
     - reinit node exporter
     - restart node exporter
 
+- name: create sysvinit service unit
+  template:
+    src: etc/init.d/prometheus-node-exporter.j2
+    dest: /etc/init.d/prometheus-node-exporter
+    owner: root
+    group: root
+    mode: 0755
+  when: ansible_service_mgr == 'sysvinit'
+  notify:
+    - restart node exporter
+
 - meta: flush_handlers
 
 - name: ensure prometheus node exporter service is enabled and started

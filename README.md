@@ -1,6 +1,6 @@
 # Ansible Role: prometheus-node-exporter
 
-An Ansible role that installs Prometheus Node Exporter on Ubuntu-based machines with systemd.
+An Ansible role that installs Prometheus Node Exporter on Ubuntu|Debian|Redhat-based machines with systemd|Upstart|sysvinit.
 
 ## Requirements
 
