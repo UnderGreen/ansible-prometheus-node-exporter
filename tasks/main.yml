@@ -3,7 +3,7 @@
 - name: download prometheus node exporter binary
   get_url:
     url: "{{ url }}"
-    dest: "{{ prometheus_exporters_common_dist_dir }}"
+    dest: "{{ prometheus_exporters_common_dist_dir }}/{{ prometheus_node_exporter_release_name }}.tar.gz"
 
 - name: unarchive binary tarball
   unarchive:
