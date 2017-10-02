@@ -39,7 +39,7 @@
     mode: 0644
   when: ansible_service_mgr == 'systemd'
   notify:
-    - service reenable
+    - reenable node exporter service
     - restart node exporter
 
 - name: Looking which version of upstart is install
