@@ -35,7 +35,7 @@ start() {
     #[ -f $config ] || exit 6
     echo -n $"Starting $prog: "
     # if not running, start it up here, usually something like "daemon $exec"
-    daemon {{ prometheus_exporters_common_root_dir }}/node_exporter_current/node_exporter -collectors.enabled={{ prometheus_node_exporter_enabled_collectors | join(',') }} {% for flag, flag_value in prometheus_node_exporter_config_flags.iteritems() %}-{{ flag }}={{ flag_value }} {% endfor %} &
+    daemon {{ prometheus_exporters_common_root_dir }}/node_exporter_current/node_exporter -collectors.enabled={{ prometheus_node_exporter_enabled_collectors | join(',') }} {% for flag, flag_value in prometheus_node_exporter_config_flags.items() %}-{{ flag }}={{ flag_value }} {% endfor %} &
     retval=$?
     echo
     [ $retval -eq 0 ] && touch $lockfile

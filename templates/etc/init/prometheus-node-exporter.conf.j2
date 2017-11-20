@@ -11,6 +11,6 @@ setgid {{ prometheus_exporters_common_group }}
 script
   exec >> "{{ prometheus_exporters_common_log_dir }}/node-exporter.log"
   exec 2>&1
-  exec {{ prometheus_exporters_common_root_dir }}/node_exporter_current/node_exporter -collectors.enabled={{ prometheus_node_exporter_enabled_collectors | join(',') }} {% for flag, flag_value in prometheus_node_exporter_config_flags.iteritems() %}-{{ flag }}={{ flag_value }} {% endfor %}
+  exec {{ prometheus_exporters_common_root_dir }}/node_exporter_current/node_exporter -collectors.enabled={{ prometheus_node_exporter_enabled_collectors | join(',') }} {% for flag, flag_value in prometheus_node_exporter_config_flags.items() %}-{{ flag }}={{ flag_value }} {% endfor %}
 
 end script
