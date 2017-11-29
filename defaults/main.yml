@@ -24,3 +24,12 @@ prometheus_node_exporter_enabled_collectors:
 prometheus_node_exporter_config_flags:
   'web.listen-address': '0.0.0.0:9100'
   'log.level': 'info'
+
+# if the node is behind a firewall
+# active: set to True to open the firewall on the "listen_port"
+# type: only "firewalld" supported so far
+# listen_port: must be the same as the "web.listen-address". By default 9100
+prometheus_node_exporter_firewall:
+  active: False
+  type: firewalld
+  listen_port: 9100

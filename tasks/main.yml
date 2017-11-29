@@ -77,3 +77,25 @@
     name: prometheus-node-exporter
     state: started
     enabled: yes
+
+- name: Create firewalld service
+  template:
+    src: etc/firewalld/services/node-exporter-service.xml
+    dest: /etc/firewalld/services/node-exporter-service.xml
+    owner: root
+    group: root
+    mode: 0644
+  when: prometheus_node_exporter_firewall.active and prometheus_node_exporter_firewall.type == "firewalld"
+  notify: restart firewalld
+
+# restart firewalld immediately to get the new service
+- meta: flush_handlers
+
+- name: Allow the exporter on public interface
+  firewalld:
+    service: node-exporter-service
+    zone: public
+    permanent: true
+    state: enabled
+  when: prometheus_node_exporter_firewall.active and prometheus_node_exporter_firewall.type == "firewalld"
+  notify: restart firewalld

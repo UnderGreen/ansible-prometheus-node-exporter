@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<service>
+  <short>node-exporter-service</short>
+  <description>Prometheus Node Exporter</description>
+  <port protocol="tcp" port="{{ prometheus_node_exporter_firewall.listen_port }}"/>
+</service>

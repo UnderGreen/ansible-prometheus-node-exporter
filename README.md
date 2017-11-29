@@ -14,7 +14,16 @@ All needed packages will be installed with this role.
 | prometheus_node_exporter_release_name       | string |                                                                                    | node_exporter-{{ prometheus_node_exporter_version }}.linux-amd64                                                            | Name of the binary that will be downloaed from the   [release](https://github.com/prometheus/node_exporter/releases)  page |
 | prometheus_node_exporter_enabled_collectors | list   | [List of flags](https://github.com/prometheus/node_exporter)                       | conntrack, diskstats, entropy, filefd, filesystem, loadavg,   mdadm, meminfo, netdev, netstat, stat, textfile, time, vmstat | List of enabled collector                                                                                                  |
 | prometheus_node_exporter_config_flags       | dict   |                                                                                    |                                                                                                                             | Dict of key, value options to add to the start command line                                                                |
+| prometheus_node_exporter_firewall           | dict   |                                                                                    |                                                                                                                             | Used if the node is placed behind a firewall. Desactivated by default                                                      |
 
+
+**prometheus_node_exporter_firewall dict:**
+
+| Variable       | Type    | Choices     | Default   | Comment                                                                           |
+|----------------|---------|-------------|-----------|-----------------------------------------------------------------------------------|
+| active         | Boolean | True, False | FALSE     | If True, a firewall rule will be applied to allow an access to the listen_port    |
+| type           | string  | firewalld   | firewalld | Type of firewall process. Only firewalld supported so far                         |
+| listen_port    | int     |             | 9100      | Must be the same as the address set in "web.listen-address"                       |
 
 ## Dependencies
 
