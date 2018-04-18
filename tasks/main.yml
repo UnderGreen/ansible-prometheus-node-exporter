@@ -37,14 +37,14 @@
     owner: root
     group: root
     mode: 0644
-  when: ansible_service_mgr == 'systemd'
+  when: service_mgr | default(ansible_service_mgr) == 'systemd'
   notify:
     - reenable node exporter service
     - restart node exporter
 
 - name: Looking which version of upstart is install
   command: initctl version
-  when: ansible_service_mgr == 'upstart'
+  when: service_mgr | default(ansible_service_mgr) == 'upstart'
   register: upstart_version
 
 - name: create init service unit
@@ -54,7 +54,7 @@
     owner: root
     group: root
     mode: 0644
-  when: ansible_service_mgr == 'upstart'
+  when: service_mgr | default(ansible_service_mgr) == 'upstart'
   notify:
     - reinit node exporter
     - restart node exporter
@@ -66,7 +66,7 @@
     owner: root
     group: root
     mode: 0755
-  when: ansible_service_mgr == 'sysvinit'
+  when: service_mgr | default(ansible_service_mgr) in [ 'sysvinit', 'service' ]
   notify:
     - restart node exporter
 
@@ -77,3 +77,4 @@
     name: prometheus-node-exporter
     state: started
     enabled: yes
+
