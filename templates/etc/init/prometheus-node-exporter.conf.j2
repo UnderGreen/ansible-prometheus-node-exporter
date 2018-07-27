@@ -1,6 +1,6 @@
 description "Prometheus Node Exporter"
-start on (local-filesystems and net-device-up IFACE!=lo)
-stop on runlevel [016]
+start on (runlevel [345] and started network)
+stop on (runlevel [!345] or stopping network)
 
 respawn
 {% if upstart_version.stdout | replace("init (upstart ", "") |replace(")","") | version_compare('1.4', '>=') %}
