@@ -1,7 +1,7 @@
 ---
 
 dependencies:
-  - UnderGreen.prometheus-exporters-common
+  - prometheus-exporters-common
 
 galaxy_info:
   author: Sergei Antipov
