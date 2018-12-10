@@ -22,7 +22,7 @@
     recurse: yes
     owner: "{{ prometheus_exporters_common_user}}"
     group: "{{ prometheus_exporters_common_group }}"
-  when: prometheus_node_exporter_updated | changed
+  when: prometheus_node_exporter_updated is changed
 
 - name: create symlink to the current release
   file:
