@@ -10,7 +10,7 @@ All needed packages will be installed with this role.
 
 | Variable                                    | Type   | Choices                                                                            | Default                                                                                                                     | Comment                                                                                                                    |
 |---------------------------------------------|--------|------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------|
-| prometheus_node_exporter_version            | string | See [node_exporter](https://github.com/prometheus/node_exporter/releases) releases | 0.15.1                                                                                                                      | Version of node_exporter that will be installed. Minimal supported version: 0.15                                           |
+| prometheus_node_exporter_version            | string | See [node_exporter](https://github.com/prometheus/node_exporter/releases) releases | 0.17.0                                                                                                                      | Version of node_exporter that will be installed. Minimal supported version: 0.15                                           |
 | prometheus_node_exporter_release_name       | string |                                                                                    | node_exporter-{{ prometheus_node_exporter_version }}.linux-amd64                                                            | Name of the binary that will be downloaed from the   [release](https://github.com/prometheus/node_exporter/releases)  page |
 | prometheus_node_exporter_enabled_collectors | list   | [List of flags](https://github.com/prometheus/node_exporter)                       | conntrack, diskstats, entropy, filefd, filesystem, loadavg,   mdadm, meminfo, netdev, netstat, stat, textfile, time, vmstat | List of enabled collector                                                                                                  |
 | prometheus_node_exporter_config_flags       | dict   |                                                                                    |                                                                                                                             | Dict of key, value options to add to the start command line                                                                |
@@ -27,7 +27,7 @@ All needed packages will be installed with this role.
 - hosts: node-exporters
   roles:
     - role: UnderGreen.prometheus-node-exporter
-      prometheus_node_exporter_version: 0.15.1
+      prometheus_node_exporter_version: 0.17.0
       prometheus_node_exporter_enabled_collectors:
         - conntrack
         - cpu
