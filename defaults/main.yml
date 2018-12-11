@@ -6,20 +6,38 @@ prometheus_node_exporter_release_name: "node_exporter-{{ prometheus_node_exporte
 
 # https://github.com/prometheus/node_exporter#enabled-by-default
 prometheus_node_exporter_enabled_collectors:
+  - arp
+  - bcache
+  - bonding
+  - boottime
   - conntrack
+  - cpu
   - diskstats
+  - edac
   - entropy
+  - exec
   - filefd
   - filesystem
+  - hwmon
+  - infiniband
+  - ipvs
   - loadavg
   - mdadm
   - meminfo
+  - netclass
   - netdev
   - netstat
+  - nfs
+  - nfsd
+  - sockstat
   - stat
   - textfile
   - time
+  - timex
+  - uname
   - vmstat
+  - xfs
+  - zfs
 
 prometheus_node_exporter_config_flags:
   'web.listen-address': '0.0.0.0:9100'
