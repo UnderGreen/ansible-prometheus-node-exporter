@@ -27,7 +27,7 @@ All needed packages will be installed with this role.
 ```yaml
 - hosts: node-exporters
   roles:
-    - role: UnderGreen.prometheus-node-exporter
+    - role: undergreen.prometheus-node-exporter
       prometheus_node_exporter_version: 0.17.0
       prometheus_node_exporter_enabled_collectors:
         - conntrack
