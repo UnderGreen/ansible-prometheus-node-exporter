@@ -2,6 +2,8 @@ description "Prometheus Node Exporter"
 start on (runlevel [345] and started network)
 stop on (runlevel [!345] or stopping network)
 
+limit nofile 4096 65536
+
 respawn
 {% if upstart_version.stdout | replace("init (upstart ", "") |replace(")","") | version_compare('1.4', '>=') %}
 setuid {{ prometheus_exporters_common_user }}
