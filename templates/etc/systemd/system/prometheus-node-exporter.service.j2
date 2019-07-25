@@ -1,6 +1,7 @@
 [Unit]
 Description=Prometheus Node Exporter
 After=network.target
+StartLimitInterval=0
 
 [Service]
 Type=simple
@@ -10,6 +11,7 @@ ExecStart={{ prometheus_exporters_common_root_dir }}/node_exporter_current/node_
 
 SyslogIdentifier=prometheus_node_exporter
 Restart=always
+RestartSec=1
 
 [Install]
 WantedBy=multi-user.target
