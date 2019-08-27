@@ -1,7 +1,7 @@
 ---
 
 # minimum supported version: 0.17
-prometheus_node_exporter_version: 0.17.0
+prometheus_node_exporter_version: 0.18.1
 prometheus_node_exporter_release_name: "node_exporter-{{ prometheus_node_exporter_version }}.linux-amd64"
 
 # https://github.com/prometheus/node_exporter#enabled-by-default
