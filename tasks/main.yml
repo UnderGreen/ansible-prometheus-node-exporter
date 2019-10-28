@@ -46,6 +46,7 @@
   command: initctl version
   when: service_mgr | default(ansible_service_mgr) == 'upstart'
   register: upstart_version
+  changed_when: false
 
 - name: create init service unit
   template:
