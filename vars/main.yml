@@ -1,1 +1,10 @@
 url: "{% if prometheus_node_exporter_url is not defined %}{% if prometheus_node_exporter_version is version_compare('0.13.0', '>=') %}https://github.com/prometheus/node_exporter/releases/download/v{{ prometheus_node_exporter_version }}/{{ prometheus_node_exporter_release_name }}.tar.gz{% else %}https://github.com/prometheus/node_exporter/releases/download/{{ prometheus_node_exporter_version }}/{{ prometheus_node_exporter_release_name }}.tar.gz{% endif %}{% else %}{{ prometheus_node_exporter_url }}{% endif %}"
+
+go_arch_map:
+    i386: '386'
+    x86_64: 'amd64'
+    aarch64: 'arm64'
+    armv7l: 'armv7'
+    armv6l: 'armv6'
+
+go_arch: "{{ go_arch_map[ansible_architecture] | default(ansible_architecture) }}"
