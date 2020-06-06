@@ -17,7 +17,7 @@
 
 - name: update group and owner for files
   file:
-    path: "{{ prometheus_node_exporter_release_name }}"
+    path: "{{ prometheus_exporters_common_dist_dir }}/{{ prometheus_node_exporter_release_name }}"
     state: directory
     recurse: yes
     owner: "{{ prometheus_exporters_common_user}}"
