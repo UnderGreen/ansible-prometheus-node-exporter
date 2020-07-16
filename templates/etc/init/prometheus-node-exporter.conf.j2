@@ -1,9 +1,9 @@
 description "Prometheus Node Exporter"
-start on (local-filesystems and net-device-up IFACE!=lo)
-stop on runlevel [016]
+start on (runlevel [345] and started network)
+stop on (runlevel [!345] or stopping network)
 
 respawn
-{% if upstart_version.stdout | replace("init (upstart ", "") |replace(")","") | version_compare('1.4', '>=') %}
+{% if upstart_version.stdout | replace("init (upstart ", "") |replace(")","") is version('1.4', '>=') %}
 setuid {{ prometheus_exporters_common_user }}
 setgid {{ prometheus_exporters_common_group }}
 {% endif %}
@@ -11,6 +11,6 @@ setgid {{ prometheus_exporters_common_group }}
 script
   exec >> "{{ prometheus_exporters_common_log_dir }}/node-exporter.log"
   exec 2>&1
-  exec {{ prometheus_exporters_common_root_dir }}/node_exporter_current/node_exporter {% for prometheus_node_exporter_collector in prometheus_node_exporter_enabled_collectors %}--collector.{{ prometheus_node_exporter_collector }} {% endfor %} {% for flag, flag_value in prometheus_node_exporter_config_flags.items() %}--{{ flag }}={{ flag_value }} {% endfor %}
+  exec {{ prometheus_exporters_common_root_dir }}/node_exporter_current/node_exporter {% for collector in prometheus_node_exporter_enabled_collectors %}--collector.{{ collector }} {% endfor %} {% for collector in prometheus_node_exporter_disabled_collectors %}--no-collector.{{ collector }} {% endfor %} {% for flag, flag_value in prometheus_node_exporter_config_flags.items() %}--{{ flag }}={{ flag_value }} {% endfor %}
 
 end script

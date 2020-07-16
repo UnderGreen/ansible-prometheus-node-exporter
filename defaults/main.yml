@@ -1,25 +1,14 @@
 ---
 
 # minimum supported version: 0.15
-prometheus_node_exporter_version: 0.15.2
+prometheus_node_exporter_version: 0.18.1
 prometheus_node_exporter_release_name: "node_exporter-{{ prometheus_node_exporter_version }}.linux-amd64"
 
 # https://github.com/prometheus/node_exporter#enabled-by-default
-prometheus_node_exporter_enabled_collectors:
-  - conntrack
-  - diskstats
-  - entropy
-  - filefd
-  - filesystem
-  - loadavg
-  - mdadm
-  - meminfo
-  - netdev
-  - netstat
-  - stat
-  - textfile
-  - time
-  - vmstat
+prometheus_node_exporter_enabled_collectors: []
+
+# https://github.com/prometheus/node_exporter#disabled-by-default
+prometheus_node_exporter_disabled_collectors: []
 
 prometheus_node_exporter_config_flags:
   'web.listen-address': '0.0.0.0:9100'

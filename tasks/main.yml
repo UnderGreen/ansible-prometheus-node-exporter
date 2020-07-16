@@ -22,7 +22,7 @@
     recurse: yes
     owner: "{{ prometheus_exporters_common_user}}"
     group: "{{ prometheus_exporters_common_group }}"
-  when: prometheus_node_exporter_updated | changed
+  when: prometheus_node_exporter_updated is changed
 
 - name: create symlink to the current release
   file:
@@ -37,15 +37,16 @@
     owner: root
     group: root
     mode: 0644
-  when: ansible_service_mgr == 'systemd'
+  when: service_mgr | default(ansible_service_mgr) == 'systemd'
   notify:
     - reenable node exporter service
     - restart node exporter
 
 - name: Looking which version of upstart is install
   command: initctl version
-  when: ansible_service_mgr == 'upstart'
+  when: service_mgr | default(ansible_service_mgr) == 'upstart'
   register: upstart_version
+  changed_when: false
 
 - name: create init service unit
   template:
@@ -54,7 +55,7 @@
     owner: root
     group: root
     mode: 0644
-  when: ansible_service_mgr == 'upstart'
+  when: service_mgr | default(ansible_service_mgr) == 'upstart'
   notify:
     - reinit node exporter
     - restart node exporter
@@ -66,7 +67,7 @@
     owner: root
     group: root
     mode: 0755
-  when: ansible_service_mgr == 'sysvinit'
+  when: service_mgr | default(ansible_service_mgr) in [ 'sysvinit', 'service' ]
   notify:
     - restart node exporter
 
