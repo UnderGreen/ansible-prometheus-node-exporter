@@ -1,9 +1,18 @@
 ---
 
-- name: download prometheus node exporter binary
-  get_url:
+- name: download prometheus node exporter binary locally
+  local_action:
+    module: get_url
     url: "{{ url }}"
+    dest: "/tmp/{{ prometheus_node_exporter_release_name }}.tar.gz"
+  
+- name: transfer local node exporter binary
+  copy: 
+    src: "/tmp/{{ prometheus_node_exporter_release_name }}.tar.gz"
     dest: "{{ prometheus_exporters_common_dist_dir }}/{{ prometheus_node_exporter_release_name }}.tar.gz"
+    owner: "{{ prometheus_exporters_common_user}}"
+    group: "{{ prometheus_exporters_common_group }}"
+    mode: '0755'
 
 - name: unarchive binary tarball
   unarchive:
@@ -76,5 +85,5 @@
 - name: ensure prometheus node exporter service is enabled and started
   service:
     name: prometheus-node-exporter
-    state: started
+    state: restarted
     enabled: yes
