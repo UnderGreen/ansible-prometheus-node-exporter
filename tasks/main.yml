@@ -1,6 +1,7 @@
 ---
 
 - name: download prometheus node exporter binary locally
+  become: no
   local_action:
     module: get_url
     url: "{{ url }}"
