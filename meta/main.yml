@@ -12,6 +12,7 @@ galaxy_info:
   platforms:
   - name: Debian
     versions:
+    - buster
     - jessie
     - wheezy
   - name: Ubuntu
