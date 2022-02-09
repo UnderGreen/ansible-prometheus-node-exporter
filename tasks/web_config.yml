@@ -1,15 +1,50 @@
 ---
-- name: ensure directory of web.config is available
+- name: ensure directory that contains web.config is available
   file:
     path: "{{ prometheus_node_exporter_config_flags['web.config'] | dirname }}"
     state: directory
     owner: "{{ prometheus_exporters_common_user}}"
     group: "{{ prometheus_exporters_common_group }}"
+  when: "(prometheus_node_exporter_config_flags['web.config'] | dirname) != prometheus_exporters_common_conf_dir"
 
-- name: ensure web.config path is templated
+- name: ensure web.config file is available
   copy:
     dest: "{{ prometheus_node_exporter_config_flags['web.config'] }}"
     content: "{{ prometheus_node_exporter_config_web_config | to_nice_yaml }}"
     mode: 0640
     owner: "{{ prometheus_exporters_common_user}}"
     group: "{{ prometheus_exporters_common_group }}"
+
+
+- name: ensure tls_server_config cert_file is available
+  copy:
+    dest: "{{ prometheus_node_exporter_config_web_config.tls_server_config.cert_file }}"
+    content: "{{ prometheus_node_exporter_config_web_config_tls_server_config_cert_file }}"
+    mode: 0640
+    owner: "{{ prometheus_exporters_common_user}}"
+    group: "{{ prometheus_exporters_common_group }}"
+  when:
+    - "'tls_server_config' in prometheus_node_exporter_config_web_config"
+    - "'cert_file' in prometheus_node_exporter_config_web_config.tls_server_config"
+
+- name: ensure tls_server_config key_file is available
+  copy:
+    dest: "{{ prometheus_node_exporter_config_web_config.tls_server_config.key_file }}"
+    content: "{{ prometheus_node_exporter_config_web_config_tls_server_config_key_file }}"
+    mode: 0400
+    owner: "{{ prometheus_exporters_common_user}}"
+    group: "{{ prometheus_exporters_common_group }}"
+  when:
+    - "'tls_server_config' in prometheus_node_exporter_config_web_config"
+    - "'key_file' in prometheus_node_exporter_config_web_config.tls_server_config"
+
+- name: ensure tls_server_config client_ca_file is available
+  copy:
+    dest: "{{ prometheus_node_exporter_config_web_config.tls_server_config.client_ca_file }}"
+    content: "{{ prometheus_node_exporter_config_web_config_tls_server_config_client_ca_file }}"
+    mode: 0640
+    owner: "{{ prometheus_exporters_common_user}}"
+    group: "{{ prometheus_exporters_common_group }}"
+  when:
+    - "'tls_server_config' in prometheus_node_exporter_config_web_config"
+    - "'client_ca_file' in prometheus_node_exporter_config_web_config.tls_server_config"
