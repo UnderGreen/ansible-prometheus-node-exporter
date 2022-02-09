@@ -1,0 +1,15 @@
+---
+- name: ensure directory of web.config is available
+  file:
+    path: "{{ prometheus_node_exporter_config_flags['web.config'] | dirname }}"
+    state: directory
+    owner: "{{ prometheus_exporters_common_user}}"
+    group: "{{ prometheus_exporters_common_group }}"
+
+- name: ensure web.config path is templated
+  copy:
+    dest: "{{ prometheus_node_exporter_config_flags['web.config'] }}"
+    content: "{{ prometheus_node_exporter_config_web_config | to_nice_yaml }}"
+    mode: 0640
+    owner: "{{ prometheus_exporters_common_user}}"
+    group: "{{ prometheus_exporters_common_group }}"

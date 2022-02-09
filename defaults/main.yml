@@ -14,3 +14,15 @@ prometheus_node_exporter_disabled_collectors: []
 prometheus_node_exporter_config_flags:
   'web.listen-address': '0.0.0.0:9100'
   'log.level': 'info'
+
+# If 'web.config' is configured in prometheus_node_exporter_config_flags
+# write the content of this variable to the configured file name.
+# See https://prometheus.io/docs/prometheus/latest/configuration/https/
+prometheus_node_exporter_config_web_config: {}
+# prometheus_node_exporter_config_web_config:
+#   basic_auth_users:
+#     foo: bar
+#   http_server_config:
+#     http2: true
+#     headers:
+#       Strict-Transport-Security: max-age=31536000;

@@ -40,6 +40,10 @@
     path: "{{ prometheus_exporters_common_root_dir }}/node_exporter_current"
     state: link
 
+- name: include web.config logic
+  include_tasks: web_config.yml
+  when: "'web.config' in prometheus_node_exporter_config_flags"
+
 - name: create systemd service unit
   template:
     src: etc/systemd/system/prometheus-node-exporter.service.j2
