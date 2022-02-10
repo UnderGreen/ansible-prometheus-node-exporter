@@ -8,3 +8,14 @@ go_arch_map:
     armv6l: 'armv6'
 
 go_arch: "{{ go_arch_map[ansible_architecture] | default(ansible_architecture) }}"
+
+tls_files:
+  - name: cert_file
+    file: tls.crt
+    mode: "0640"
+  - name: key_file
+    file: tls.key
+    mode: "0400"
+  - name: client_ca_file
+    file: client_ca.crt
+    mode: "0640"

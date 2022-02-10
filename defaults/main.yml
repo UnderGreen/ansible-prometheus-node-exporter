@@ -15,14 +15,43 @@ prometheus_node_exporter_config_flags:
   'web.listen-address': '0.0.0.0:9100'
   'log.level': 'info'
 
-# If 'web.config' is configured in prometheus_node_exporter_config_flags
-# write the content of this variable to the configured file name.
-# See https://prometheus.io/docs/prometheus/latest/configuration/https/
-prometheus_node_exporter_config_web_config: {}
-# prometheus_node_exporter_config_web_config:
-#   basic_auth_users:
-#     foo: bar
-#   http_server_config:
-#     http2: true
-#     headers:
-#       Strict-Transport-Security: max-age=31536000;
+# If any of these below are set, then a YAML configuration file will be
+# created, the 'web.config' config flag will be added to
+# 'prometheus_node_exporter_config_flags'. This flag will point to the path of
+# the YAML configuration file. The 3 variables correspond to the 3 supported
+# options described at https://prometheus.io/docs/prometheus/latest/configuration/https/
+
+# The values are expected to be the actual key/cert content
+prometheus_node_exporter_tls_server_config: {}
+# prometheus_node_exporter_tls_server_config:
+#   cert_file: |
+#     -----BEGIN CERTIFICATE-----
+#     MIIBwjCCAUigAwIBAgIUY+hQ3ZiN+RvHL.......
+#     ............................
+#     -----END CERTIFICATE-----
+#   key_file: |
+#     -----BEGIN PRIVATE.....
+#     .................
+#     ....-END PRIVATE KEY-----
+#   client_ca_file: |
+#     -----BEGIN CERTIFICATE-----
+#     MIIBvTCCAUSgAwIBAgIUHxAqS4UGCPM...........
+#     .......................
+#     -----END CERTIFICATE-----
+
+# The role will take care of the hashing. Just provide the passwords
+prometheus_node_exporter_basic_auth_users: {}
+# prometheus_node_exporter_basic_auth_users:
+#   admin: hackme
+#   prometheus: hackme
+
+# Used as-is
+prometheus_node_exporter_http_server_config: {}
+# prometheus_node_exporter_http_server_config:
+#   http2: true
+#   headers:
+#     Content-Security-Policy: default-src 'self' trusted.com *.trusted.com
+#     X-Frame-Options: SAMEORIGIN
+#     X-Content-Type-Options: nosniff
+#     X-XSS-Protection: 1; mode=block
+#     Strict-Transport-Security: max-age=600

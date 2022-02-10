@@ -1,73 +1,48 @@
 ---
-- name: ensure directory that contains web.config is available
-  file:
-    path: "{{ prometheus_node_exporter_config_flags['web.config'] | dirname }}"
-    state: directory
-    owner: "{{ prometheus_exporters_common_user}}"
-    group: "{{ prometheus_exporters_common_group }}"
-  when: "(prometheus_node_exporter_config_flags['web.config'] | dirname) != prometheus_exporters_common_conf_dir"
+- name: construct tls_server_config
+  set_fact:
+    tls_server_config: "{{ tls_server_config | default({}) | combine(
+      {
+        item:
+          prometheus_exporters_common_conf_dir ~ '/' ~ tls_files | json_query('[?name==`' ~ item ~ '`].file|[0]')
+      }
+    ) }}"
+  loop: "{{ prometheus_node_exporter_tls_server_config.keys() }}"
+
+# With idempotent password hashing, also on older/buggy ansible versions
+# See https://github.com/ansible/ansible/issues/36129
+- name: construct basic_auth_users
+  set_fact:
+    basic_auth_users: "{{ basic_auth_users | default({}) | combine(
+      {
+        item.key: item.value |
+          password_hash(
+            'bcrypt',
+            ('abcdef0ghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890' | shuffle(seed=inventory_hostname) | join)[:21] +
+            ('Oeu' | shuffle(seed=inventory_hostname) | join)[1],
+            rounds=9)
+      }
+    ) }}"
+  loop: "{{ prometheus_node_exporter_basic_auth_users|dict2items }}"
 
 - name: ensure web.config file is available
-  copy:
-    dest: "{{ prometheus_node_exporter_config_flags['web.config'] }}"
-    content: "{{ prometheus_node_exporter_config_webconfig | to_nice_yaml }}"
+  template:
+    src: web.yml.j2
+    dest: "{{ prometheus_exporters_common_conf_dir }}/web.yml"
     mode: 0640
     owner: "{{ prometheus_exporters_common_user}}"
     group: "{{ prometheus_exporters_common_group }}"
 
-
-# - name: Eensure tls_server_config files are available
-#   copy:
-#     dest: "{{ prometheus_node_exporter_config_webconfig.tls_server_config[item.name] }}"
-#     content: "{{ lookup('vars', 'prometheus_node_exporter_tls_' + item.name) }}"
-#     mode: "{{ item.mode }}"
-#     owner: "{{ prometheus_exporters_common_user}}"
-#     group: "{{ prometheus_exporters_common_group }}"
-#   when:
-#     - "'tls_server_config' in prometheus_node_exporter_config_webconfig"
-#     - item.name in prometheus_node_exporter_config_webconfig.tls_server_config
-#     - lookup('varnames', 'prometheus_node_exporter_tls_' + item.name)
-#   loop:
-#     - name: cert_file
-#       mode: "0640"
-#     - name: key_file
-#       mode: "0400"
-#     - name: client_ca_file
-#       mode: "0640"
-#   loop_control:
-#     label: "{{ prometheus_node_exporter_config_webconfig.tls_server_config[item.name] }}"
-
-- name: Ensure private key is available
-  community.crypto.openssl_privatekey:
-    path: "{{ prometheus_node_exporter_config_webconfig.tls_server_config.key_file }}"
-    type: ECC
-    curve: secp256r1
+- name: ensure tls_server_config related files are available
+  copy:
+    dest: "{{ prometheus_exporters_common_conf_dir }}/{{ item.file }}"
+    content: "{{ prometheus_node_exporter_tls_server_config[item.name] }}"
+    mode: "{{ item.mode }}"
     owner: "{{ prometheus_exporters_common_user}}"
     group: "{{ prometheus_exporters_common_group }}"
   when:
-    - "'tls_server_config' in prometheus_node_exporter_config_webconfig"
-    - "'key_file' in prometheus_node_exporter_config_webconfig.tls_server_config"
+    - item.name in prometheus_node_exporter_tls_server_config
+  loop: "{{ tls_files }}"
+  loop_control:
+    label: "{{ prometheus_exporters_common_conf_dir }}/{{ item.file }}"
 
-- name: Ensure CSR is available
-  community.crypto.openssl_csr_pipe:
-    privatekey_path: "{{ prometheus_node_exporter_config_webconfig.tls_server_config.key_file }}"
-    common_name: "{{ ansible_fqdn }} prometheus node exporter"
-  when:
-    - "'tls_server_config' in prometheus_node_exporter_config_webconfig"
-    - "'key_file' in prometheus_node_exporter_config_webconfig.tls_server_config"
-  register: gencsr
-  changed_when: false
-
-- name: Eensure tls_server_config files are available
-  community.crypto.x509_certificate:
-    path: "{{ prometheus_node_exporter_config_webconfig.tls_server_config.cert_file }}"
-    privatekey_path: "{{ prometheus_node_exporter_config_webconfig.tls_server_config.key_file }}"
-    csr_content: "{{ gencsr.csr }}"
-    # mode: "{{ item.mode }}"
-    owner: "{{ prometheus_exporters_common_user}}"
-    group: "{{ prometheus_exporters_common_group }}"
-    provider: selfsigned
-  when:
-    - "'tls_server_config' in prometheus_node_exporter_config_webconfig"
-    - "'cert_file' in prometheus_node_exporter_config_webconfig.tls_server_config"
-    - "'key_file' in prometheus_node_exporter_config_webconfig.tls_server_config"
