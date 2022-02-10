@@ -15,11 +15,12 @@ prometheus_node_exporter_config_flags:
   'web.listen-address': '0.0.0.0:9100'
   'log.level': 'info'
 
-# If any of these below are set, then a YAML configuration file will be
-# created, the 'web.config' config flag will be added to
-# 'prometheus_node_exporter_config_flags'. This flag will point to the path of
-# the YAML configuration file. The 3 variables correspond to the 3 supported
+# If any of the 3 variables below are set, then a YAML configuration file will
+# be created, the 'web.config' config flag will be added to
+# 'prometheus_node_exporter_config_flags', and this flag will point to the path
+# of the YAML configuration file. The 3 variables correspond to the 3 supported
 # options described at https://prometheus.io/docs/prometheus/latest/configuration/https/
+# although they're not exactly the same. See below.
 
 # The values are expected to be the actual key/cert content
 prometheus_node_exporter_tls_server_config: {}
@@ -39,11 +40,12 @@ prometheus_node_exporter_tls_server_config: {}
 #     .......................
 #     -----END CERTIFICATE-----
 
-# The role will take care of the hashing. Just provide the passwords
+# Provide plain passwords - the role will take care of the correct hashing
 prometheus_node_exporter_basic_auth_users: {}
 # prometheus_node_exporter_basic_auth_users:
 #   admin: hackme
 #   prometheus: hackme
+
 
 # Used as-is
 prometheus_node_exporter_http_server_config: {}
