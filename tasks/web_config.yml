@@ -8,6 +8,9 @@
       }
     ) }}"
   loop: "{{ prometheus_node_exporter_tls_server_config.keys() }}"
+  loop_control:
+    label: "{{ prometheus_exporters_common_conf_dir ~ '/' ~ tls_files | json_query('[?name==`' ~ item ~ '`].file|[0]') }}"
+
 
 # With idempotent password hashing, also on older/buggy ansible versions
 # See https://github.com/ansible/ansible/issues/36129
@@ -24,6 +27,9 @@
       }
     ) }}"
   loop: "{{ prometheus_node_exporter_basic_auth_users|dict2items }}"
+  loop_control:
+    label: "{{ item.key }}"
+  no_log: true
 
 - name: ensure web.config file is available
   template:
@@ -45,4 +51,3 @@
   loop: "{{ tls_files }}"
   loop_control:
     label: "{{ prometheus_exporters_common_conf_dir }}/{{ item.file }}"
-

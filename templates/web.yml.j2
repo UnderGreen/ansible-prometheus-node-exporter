@@ -1,10 +1,10 @@
 # {{ ansible_managed }}
 
-{% if tls_server_config|count > 0 %}
+{% if tls_server_config is defined %}
 {{ {'tls_server_config': tls_server_config} | to_nice_yaml }}
 {% endif %}
 
-{% if basic_auth_users|count > 0 %}
+{% if basic_auth_users is defined %}
 {{ {'basic_auth_users': basic_auth_users} | to_nice_yaml }}
 {% endif %}
 
