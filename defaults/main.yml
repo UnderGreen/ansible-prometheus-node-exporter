@@ -15,30 +15,26 @@ prometheus_node_exporter_config_flags:
   'web.listen-address': '0.0.0.0:9100'
   'log.level': 'info'
 
-# If any of the 3 variables below are set, then a YAML configuration file will
-# be created, the 'web.config' config flag will be added to
-# 'prometheus_node_exporter_config_flags', and this flag will point to the path
-# of the YAML configuration file. The 3 variables correspond to the 3 supported
-# options described at https://prometheus.io/docs/prometheus/latest/configuration/https/
-# although they're not exactly the same. See below.
+# If any of the variables below are set, then the 'web.config' config flag
+# will be added, pointing to a configuratin file that contains the appropriate
+# parameters.
+# Based on https://prometheus.io/docs/prometheus/latest/configuration/https/
 
-# The values are expected to be the actual key/cert content
-prometheus_node_exporter_tls_server_config: {}
-# prometheus_node_exporter_tls_server_config:
-#   cert_file: |
-#     -----BEGIN CERTIFICATE-----
-#     MIIBwjCCAUigAwIBAgIUY+hQ3ZiN+RvHL.......
-#     ............................
-#     -----END CERTIFICATE-----
-#   key_file: |
-#     -----BEGIN PRIVATE.....
-#     .................
-#     ....-END PRIVATE KEY-----
-#   client_ca_file: |
-#     -----BEGIN CERTIFICATE-----
-#     MIIBvTCCAUSgAwIBAgIUHxAqS4UGCPM...........
-#     .......................
-#     -----END CERTIFICATE-----
+# These values are expected to contain the actual content of the X.509 key
+# materials (in PEM format). Not file names.
+# prometheus_node_exporter_tls_cert: |
+#   -----BEGIN CERTIFICATE-----
+#   MIIBwjCCAUigAwIBAgIUY+hQ3ZiN+RvHL.......
+#   -----END CERTIFICATE-----
+# prometheus_node_exporter_tls_key: |
+#   -----BEGIN PRIVATE.....
+#   .................
+#   ....-END PRIVATE KEY-----
+# prometheus_node_exporter_tls_client_ca: |
+#   -----BEGIN CERTIFICATE-----
+#   MIIBvTCCAUSgAwIBAgIUHxAqS4UGCPM...........
+#   .......................
+#   -----END CERTIFICATE-----
 
 # Provide plain passwords - the role will take care of the correct hashing
 prometheus_node_exporter_basic_auth_users: {}

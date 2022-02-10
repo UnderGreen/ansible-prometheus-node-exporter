@@ -10,12 +10,12 @@ go_arch_map:
 go_arch: "{{ go_arch_map[ansible_architecture] | default(ansible_architecture) }}"
 
 tls_files:
-  - name: cert_file
+  - name: cert
     file: tls.crt
     mode: "0640"
-  - name: key_file
+  - name: key
     file: tls.key
     mode: "0400"
-  - name: client_ca_file
+  - name: client_ca
     file: client_ca.crt
     mode: "0640"
