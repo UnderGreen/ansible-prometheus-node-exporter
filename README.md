@@ -26,7 +26,7 @@ All needed packages will be installed with this role.
 
 - UnderGreen.prometheus-exporters-common
 
-## Example Playbook
+## Example Playbooks
 
 ```yaml
 - hosts: node-exporters
@@ -54,6 +54,30 @@ All needed packages will be installed with this role.
         'log.level': 'info'
 ```
 
+```yaml
+- hosts: secure-node-exporters
+  roles:
+    - role: undergreen.prometheus-node-exporter
+      prometheus_node_exporter_version: 1.3.1
+      prometheus_node_exporter_tls_cert: |
+        -----BEGIN CERTIFICATE-----
+        MIIBgDCCASWgAwIBAgIUaa+4EIvsObFzij6Ntc6SFXKQoKkwCgYIKoZIzj0EAwIw
+        FTETMBEGA1UEAwwKcHJvbWV0aGV1czAeFw0yMjAyMTAxOTIxMTBaFw0zODAxMTcx
+        OTIxMTBaMBUxEzARBgNVBAMMCnByb21ldGhldXMwWTATBgcqhkjOPQIBBggqhkjO
+        PQMBBwNCAASbr9rMFdAl+wQp48sLzzG+fqPMY5jgD4mKFZfQ4kEt32/9WBtJ8GhJ
+        Fkd1EwSwWM/4Lr06QxPX2HOYKtT9OTLEo1MwUTAdBgNVHQ4EFgQUijFndd4tyCbI
+        3LOpvYw5Hv6w/JEwHwYDVR0jBBgwFoAUijFndd4tyCbI3LOpvYw5Hv6w/JEwDwYD
+        VR0TAQH/BAUwAwEB/zAKBggqhkjOPQQDAgNJADBGAiEAxhxxDGsv5Im6EPtdEqo4
+        Al40BgVMUVNuKW0aL1cPAT0CIQDPeqgPBXgzezSj5/ZXu+jAUCACsgMD3GrfusQj
+        HBXKVw==
+        -----END CERTIFICATE-----
+      prometheus_node_exporter_tls_key: "{{ lookup('file','keys/proj/tls1.key') }}"
+      prometheus_node_exporter_basic_auth_users:
+        admin: hackme
+        foo: bar
+      prometheus_node_exporter_http_server_config:
+        Strict-Transport-Security: max-age=600
+```
 ## Note:
 
 Due to [prometheus/node_exporter#640](https://github.com/prometheus/node_exporter/pull/640) and [prometheus/node_exporter#639](https://github.com/prometheus/node_exporter/pull/639) changes, this role can only support the minimum version 0.15 of node_exporter.
