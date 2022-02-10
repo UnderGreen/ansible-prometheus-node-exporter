@@ -16,11 +16,11 @@ All needed packages will be installed with this role.
 | `prometheus_node_exporter_disabled_collectors` | list   | [List of flags](https://github.com/prometheus/node_exporter#enabled-by-default)| `[]`| List of [collectors that are enabled by default](https://github.com/prometheus/node_exporter#enabled-by-default) to disable  |
 | `prometheus_node_exporter_config_flags`  | dict   |   |  | Dict of key, value options to add to the start command line  |
 | `prometheus_node_exporter_url`    | string |      | not defined   | Custom URL to download node_exporter if you don't have access to GitHub     |
-| `prometheus_node_exporter_tls_cert` | string | See [TLS and authentication](https://prometheus.io/docs/prometheus/latest/configuration/https/) | not defined | PEM formatted X.509 certificate  | 
-| `prometheus_node_exporter_tls_key` | string |See [TLS and authentication](https://prometheus.io/docs/prometheus/latest/configuration/https/) | not defined | PEM formatted X.509 private key  | 
-| `prometheus_node_exporter_tls_client_ca` | string |See [TLS and authentication](https://prometheus.io/docs/prometheus/latest/configuration/https/) | not defined | PEM formatted X.509 client CA | 
-| `prometheus_node_exporter_basic_auth_users` | dict |See [TLS and authentication](https://prometheus.io/docs/prometheus/latest/configuration/https/) | `{}` | Key/value pairs representing usernames and (cleartext) passwords - the role takes care of hashing the passwords.  | 
-| `prometheus_node_exporter_http_server_config` | dict |See [TLS and authentication](https://prometheus.io/docs/prometheus/latest/configuration/https/) | `{}` | Web server options  | 
+| `prometheus_node_exporter_tls_cert` | string | See [TLS and authentication](https://prometheus.io/docs/prometheus/latest/configuration/https/) | not defined | PEM formatted X.509 certificate  |
+| `prometheus_node_exporter_tls_key` | string |See [TLS and authentication](https://prometheus.io/docs/prometheus/latest/configuration/https/) | not defined | PEM formatted X.509 private key  |
+| `prometheus_node_exporter_tls_client_ca` | string |See [TLS and authentication](https://prometheus.io/docs/prometheus/latest/configuration/https/) | not defined | PEM formatted X.509 client CA |
+| `prometheus_node_exporter_basic_auth_users` | dict |See [TLS and authentication](https://prometheus.io/docs/prometheus/latest/configuration/https/) | `{}` | Key/value pairs representing usernames and (cleartext) passwords - the role takes care of hashing the passwords.  |
+| `prometheus_node_exporter_http_server_config` | dict |See [TLS and authentication](https://prometheus.io/docs/prometheus/latest/configuration/https/) | `{}` | Web server options  |
 
 ## Dependencies
 

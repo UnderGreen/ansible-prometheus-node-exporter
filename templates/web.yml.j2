@@ -8,6 +8,8 @@
 {{ {'basic_auth_users': basic_auth_users} | to_nice_yaml }}
 {% endif %}
 
+{% if prometheus_node_exporter_http_server_config is defined %}
 {% if prometheus_node_exporter_http_server_config|count > 0 %}
 {{ {'http_server_config': prometheus_node_exporter_http_server_config} | to_nice_yaml }}
+{% endif %}
 {% endif %}

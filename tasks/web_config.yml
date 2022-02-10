@@ -33,6 +33,7 @@
       }
     ) }}"
   loop: "{{ prometheus_node_exporter_basic_auth_users|dict2items }}"
+  when: prometheus_node_exporter_basic_auth_users is defined
   no_log: true
 
 - name: ensure web.config file is available

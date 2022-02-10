@@ -16,12 +16,14 @@ prometheus_node_exporter_config_flags:
   'log.level': 'info'
 
 # If any of the variables below are set, then the 'web.config' config flag
-# will be added, pointing to a configuratin file that contains the appropriate
+# will be added, pointing to a configuration file that contains the appropriate
 # parameters.
 # Based on https://prometheus.io/docs/prometheus/latest/configuration/https/
 
+
 # These values are expected to contain the actual content of the X.509 key
 # materials (in PEM format). Not file names.
+
 # prometheus_node_exporter_tls_cert: |
 #   -----BEGIN CERTIFICATE-----
 #   MIIBwjCCAUigAwIBAgIUY+hQ3ZiN+RvHL.......
@@ -36,15 +38,16 @@ prometheus_node_exporter_config_flags:
 #   .......................
 #   -----END CERTIFICATE-----
 
+
 # Provide plain passwords - the role will take care of the correct hashing
-prometheus_node_exporter_basic_auth_users: {}
+
 # prometheus_node_exporter_basic_auth_users:
 #   admin: hackme
 #   prometheus: hackme
 
 
 # Used as-is
-prometheus_node_exporter_http_server_config: {}
+
 # prometheus_node_exporter_http_server_config:
 #   http2: true
 #   headers:
