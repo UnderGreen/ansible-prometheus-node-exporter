@@ -24,7 +24,6 @@
     mode: '0755'
   when: prometheus_node_exporter_local_download | bool
 
-
 - name: unarchive binary tarball
   unarchive:
     copy: no
