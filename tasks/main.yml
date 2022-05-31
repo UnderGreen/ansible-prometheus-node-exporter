@@ -6,9 +6,17 @@
     module: get_url
     url: "{{ url }}"
     dest: "/tmp/{{ prometheus_node_exporter_release_name }}.tar.gz"
-  
+  when: prometheus_node_exporter_local_download | bool
+
+- name: download prometheus node exporter binary remotely
+  become: no
+  get_url:
+    url: "{{ url }}"
+    dest: "/tmp/{{ prometheus_node_exporter_release_name }}.tar.gz"
+  when: not prometheus_node_exporter_local_download
+
 - name: transfer local node exporter binary
-  copy: 
+  copy:
     src: "/tmp/{{ prometheus_node_exporter_release_name }}.tar.gz"
     dest: "{{ prometheus_exporters_common_dist_dir }}/{{ prometheus_node_exporter_release_name }}.tar.gz"
     owner: "{{ prometheus_exporters_common_user}}"
